@@ -1,0 +1,9 @@
+
+{
+        "restaurant": ["Bopomofo Cafe"],
+        "insta_usernames": ["bopomofocafe"],
+        "image_folder": "images",
+        "meta_folder": "metadata",
+        "initial_yelp_url":"https://www.yelp.com/search?find_desc=Restaurants&find_loc=Bellevue%2C+WA&ns=1"
+
+}
