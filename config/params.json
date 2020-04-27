@@ -2,6 +2,8 @@
 {
         "image_folder": "images",
         "meta_folder": "metadata",
-        "sample_size":10
+        "sample_size":10,
+        "limit_per_genre":500,
+        "genres":["Science","Romance","Crime","Horror","Fantasy"]
 
 }

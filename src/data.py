@@ -39,4 +39,6 @@ def get_metadata(genres,lst_jsons):
 
     return df_metadata
 
-    
+def write_df_to_csv(df):
+    return df.to_csv('notebooks/metadata.csv')
+
