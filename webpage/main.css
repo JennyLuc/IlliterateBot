@@ -1,0 +1,26 @@
+.header {
+    padding: 60px;
+    text-align: center;
+    color: black;
+    font-size: 30px;
+}
+
+.row {
+    text-align: center
+}
+
+.column {
+    flex: 50%;
+    padding: 10px;
+}
+
+img.b1 {
+    width:200px;
+    height:40px;
+}
+
+.text-block {
+    bottom: 20px;
+    right: 20px;
+    color: black;
+}
