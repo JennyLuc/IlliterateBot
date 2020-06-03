@@ -20,7 +20,15 @@ img.b1 {
 }
 
 .text-block {
-    bottom: 20px;
-    right: 20px;
     color: black;
+    white-space:nowrap;
+    text-align: left;
+    display:inline-block;
+
+}
+
+p{
+    word-break: normal;
+    white-space: normal;
+    font-size:24px;
 }
