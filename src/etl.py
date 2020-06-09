@@ -24,16 +24,20 @@ from keras.preprocessing.image import img_to_array
 from keras.applications.vgg16 import preprocess_input
 
 from keras.models import Sequential
-from keras.layers.core import Flatten, Dense, Dropout
-from keras.layers.convolutional import Convolution2D, MaxPooling2D, ZeroPadding2D
+from keras.layers.core import Flatten
 from keras.optimizers import SGD
 from keras import backend as K
 from PIL import Image
 from matplotlib.offsetbox import OffsetImage
 from matplotlib.offsetbox import AnnotationBbox
 
-
+# retreive sample set and calls on all the other functions to 
+# generate basic image stats and create graphs
 def sample_genres(list_of_genres, sample_size, df, folder):
+    ''' list_of_genres: a list of the genres that we are working with
+        sample_size: an integer of the sample size that we would retrieve
+        folder: a string of the folder that would store the book cover images
+    '''
     df = df.drop(df[df.cover_id == 'None'].index)
     sampled_df = pd.DataFrame()
     for genre in list_of_genres:
@@ -45,11 +49,16 @@ def sample_genres(list_of_genres, sample_size, df, folder):
     saturation_histograms(metadata, 'graphs')
     entropy_histograms(metadata, 'graphs')
     brightness_histograms (metadata, 'graphs')
+    
+    # creates umap from basic image stats
     embedding_df = create_umap (metadata, 'graphs')
 
+    # creates thumbnails of the book covers
     thumbnail_list = create_img_thumbnails (metadata, folder, 'thumbnails')
     embedding_df['thumbnail_path'] = thumbnail_list
     embedding_df.columns = ['x', 'y', 'thumbnail_path']
+    
+    #creates umap of thumbnails from basic image stats
     create_umap_thumbnail(embedding_df, 'UMAP of Book Cover Features')
 
     metadata.to_csv('src/metadata.csv', index = False)
@@ -93,6 +102,10 @@ def create_directory (folder):
 
 #downloads images and extracts features
 def download_images(meta_df, folder):
+    ''' meta_df: adataframe of the sample set that includes cover_id
+        folder: a string of the name of the folder where the images would
+                be saved at 
+                '''
     create_directory(folder)
     pix = []
     brightness = []
@@ -100,6 +113,8 @@ def download_images(meta_df, folder):
     saturation = []
     entropy = []
     count = 0
+    
+    # goes through all of the cover id to download images
     for coverid in meta_df['cover_id']:
         if count == 90:
             time.sleep(350)
@@ -107,6 +122,7 @@ def download_images(meta_df, folder):
         count += 1
         if coverid == 'None':
             continue
+        # gets image from the Open Library API
         link = "http://covers.openlibrary.org/b/id/{}-L.jpg".format(coverid)
 
         rendered_link = io.imread(link)
@@ -117,8 +133,12 @@ def download_images(meta_df, folder):
         saturation.append(mean_saturation(rendered_link))
 
         filename = "{}/{}.jpg".format(folder,coverid)
+        
+        #download the book cover images
         urllib.request.urlretrieve(link, filename)
         entropy.append(get_entropy(filename))
+        
+    #appends the lists of basic image stats to a dataframe
     meta_df['pixel_count'] = pix
     meta_df['mean_brightness'] = brightness
     meta_df['mean_hue'] = hue
