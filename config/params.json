@@ -1,6 +1,6 @@
 
 {
-        "image_folder": "images",
+        "image_folder": "image",
         "meta_folder": "metadata",
         "tb_folder":"thumbnails",
         "sample_size":10,

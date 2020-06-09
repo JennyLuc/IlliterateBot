@@ -24,6 +24,7 @@ def get_rgb_hist(metadata,img_path):
     lst_rgb_hist = []
     for cover_id in metadata['cover_id']:
         path = img_path+"/"+str(cover_id)+".jpg"
+        print(path)
         image = cv2.imread(path)
         rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         hist = cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8],[0, 256, 0, 256, 0, 256])
@@ -131,8 +132,9 @@ def create_umap_rgb_hist_with_tn(umap_df):
 
 ### ORB ###
 '''
-For ORB we followed OpenCV's documentation for ORB and also OpenCV's tutorial on image feature matching.
+For ORB we followed OpenCV's documentation for ORB and also OpenCV's tutorial on image feature matching. We also followed Vino Mahendran's guide on how to use OpenCV's feature detection models.
 The documentation can be found here: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_orb/py_orb.html
+Vino Mahendran's guide can be found here: https://blog.francium.tech/feature-detection-and-matching-with-opencv-5fd2394a590
 '''
 
 def get_keypoints_and_desc(metadata,image_path):
