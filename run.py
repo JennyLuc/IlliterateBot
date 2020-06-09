@@ -30,6 +30,7 @@ def main(targets):
             lst_thumbnails = create_img_thumbnails(metadata,cfg['image_folder'],cfg['tb_folder'])
             umap_df['thumnail_path'] = lst_thumbnails
             create_umap_rgb_hist_with_tn(umap_df)
+            create_example_rgb_hist()
             lst_desc,lst_kd = get_keypoints_and_desc(metadata,cfg['image_folder'])
             lst_best_match = get_best_matches(lst_desc,lst_kd)
             metadata = add_best_match_col(metadata,lst_best_match)

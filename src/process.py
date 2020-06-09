@@ -128,6 +128,25 @@ def create_umap_rgb_hist_with_tn(umap_df):
     plt.title('UMAP of Book Covers')
     fig.savefig('output/UMAP of Book Covers.jpg')
 
+def create_example_rgb_hist():
+    '''
+    Creates the example RGB histogram
+    Follows the Kartik Nooney tutorial example
+    '''
+    image_path = "image/8441376.jpg"
+    img = cv2.imread(image_path)
+    color = ('r','g','b')
+    plt.figure(figsize=(20,15))
+    for i,col in enumerate(color):
+        hist = cv2.calcHist([img],[i],None,[256],[0,256])
+        plt.plot(hist,color=col)
+        plt.xlim([0,256])
+    plt.ylabel('Pixel Count')
+    plt.xlabel('RGB Channel Intensity')
+    plt.savefig('output/rgb_hist_example.png')
+    plt.close()
+
+
 
 ### ORB ###
 '''

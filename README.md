@@ -1,5 +1,11 @@
 # IlliterateBot
 
+
+### To test our code use the command:
+
+python run.py test
+
+
 ## Limitations of Code 
 
 ### CNN Feature Vectors
@@ -17,3 +23,5 @@ this, it is difficult to include it into our pipeline without changing the code 
 In our report we discussed our experiences using Tesseract OCR. The code used to generate the visualizations found in our report is in our Tesseract Jupyter Notebook. 
 We were not able to add this code to our main pipeline since PyTesseract, a Python wrapper for Tesseract, requires a local installation of the Tesseract engine and requires placement directly
 in the local AppData folder.
+
+
