@@ -24,7 +24,6 @@ def get_rgb_hist(metadata,img_path):
     lst_rgb_hist = []
     for cover_id in metadata['cover_id']:
         path = img_path+"/"+str(cover_id)+".jpg"
-        print(path)
         image = cv2.imread(path)
         rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         hist = cv2.calcHist([image], [0, 1, 2], None, [8, 8, 8],[0, 256, 0, 256, 0, 256])
@@ -97,7 +96,7 @@ def create_umap_rgb_hist(lst_rgb_hist,metadata):
     rgb_hist_umap.savefig("output/rgb_hist_umap.png")
     return umap_df
 
-def create_img_thumbnails(metadata,image_path,thumbnail_path):
+def create_img_thumbnails(metadata,image_path,tb_path):
     '''
     Creates thumbnails for all the book covers listed in the metadata dataframe
     '''
@@ -108,7 +107,7 @@ def create_img_thumbnails(metadata,image_path,thumbnail_path):
         path = image_path+"/"+str(cover_id)+".jpg"
         im = Image.open(path)
         im.thumbnail(size)
-        thumbnail_path = thumbnail_path+'/'+str(cover_id)+'.jpg'
+        thumbnail_path = tb_path+'/'+str(cover_id)+'.jpg'
         im.save(thumbnail_path)
         lst_thumbnail_path.append(thumbnail_path)
         lst_thumbnails.append(thumbnail_path)
@@ -227,6 +226,6 @@ def create_orb_acc_hist(metadata):
         else:
             lst_correctly_matched.append(0)
     metadata['Correct_Match'] = pd.Series(lst_correctly_matched)
-    metadata[metadata['Correct_Match']==0]['genre'].hist(figsize=(15,10))
-    ax.figure.savefig('output/orb_acc_hist.png')
+    correct_match_hist = metadata[metadata['Correct_Match']==0]['genre'].hist(figsize=(15,10))
+    correct_match_hist.figure.savefig('output/orb_acc_hist.png')
 

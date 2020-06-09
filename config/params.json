@@ -1,8 +1,8 @@
 
 {
-        "image_folder": "image",
+        "image_folder": "images",
         "meta_folder": "metadata",
-        "tb_folder":"thumbnails",
+        "tb_folder":"thumbnail",
         "sample_size":10,
         "limit_per_genre":500,
         "genres":["Science","Romance","Crime","Horror","Fantasy"]
