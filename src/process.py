@@ -7,13 +7,14 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import seaborn as sns
 from matplotlib import pyplot as plt
+from etl import *
 # import pytesseract
 # from pytesseract import Output
 
 ### RGB HISTOGRAM ###
 '''
 We followed a great guide provided by Kartik Nooney on Towards Data Science. He provided great insight on how to get the RGB histograms and also how to best display the RGB histogram as
-a line chart. 
+a line chart.
 You can find his guide here: https://towardsdatascience.com/judging-a-book-by-its-cover-1365d001ef50
 '''
 def get_rgb_hist(metadata,img_path):
@@ -33,7 +34,7 @@ def get_rgb_hist(metadata,img_path):
 
 def get_hist_corr(lst_rgb_hist):
     """
-    Calculates the correlation between each RGB histogram 
+    Calculates the correlation between each RGB histogram
     Returns a matrix of correlations
     """
     lst_img_corr = []
@@ -100,16 +101,17 @@ def create_img_thumbnails(metadata,image_path,tb_path):
     '''
     Creates thumbnails for all the book covers listed in the metadata dataframe
     '''
+    create_directory(tb_path)
     size = 24, 32
     lst_thumbnails = []
-    lst_thumbnail_path = []
+    # lst_thumbnail_path = []
     for cover_id in metadata['cover_id']:
         path = image_path+"/"+str(cover_id)+".jpg"
         im = Image.open(path)
         im.thumbnail(size)
         thumbnail_path = tb_path+'/'+str(cover_id)+'.jpg'
         im.save(thumbnail_path)
-        lst_thumbnail_path.append(thumbnail_path)
+        # lst_thumbnail_path.append(thumbnail_path)
         lst_thumbnails.append(thumbnail_path)
     return lst_thumbnails
 
@@ -118,7 +120,7 @@ def create_umap_rgb_hist_with_tn(umap_df):
     Creates the RGB Histgoram UMAP chart with book cover thumnails
     '''
     fig, ax = plt.subplots(figsize=(10, 10), dpi=100)
-    ax.scatter(umap_df['x'].values, umap_df['y'].values) 
+    ax.scatter(umap_df['x'].values, umap_df['y'].values)
     coords = umap_df[['x','y','thumnail_path']].values
     for i in range(len(coords)):
         img = OffsetImage(plt.imread(coords[i][2]))
@@ -181,7 +183,7 @@ def get_keypoints_and_desc(metadata,image_path):
 
 def get_best_matches(lst_desc,lst_kd):
     '''
-    Calculates the Norm Hamming Distance between each book book's descriptors. Finds each book's best match based off the lowest average distance 
+    Calculates the Norm Hamming Distance between each book book's descriptors. Finds each book's best match based off the lowest average distance
     between its descriptors.
     Returns a list of each book's best match.
     '''
@@ -247,4 +249,3 @@ def create_orb_acc_hist(metadata):
     metadata['Correct_Match'] = pd.Series(lst_correctly_matched)
     correct_match_hist = metadata[metadata['Correct_Match']==0]['genre'].hist(figsize=(15,10))
     correct_match_hist.figure.savefig('output/orb_acc_hist.png')
-
