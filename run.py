@@ -34,7 +34,8 @@ def main(targets):
             lst_desc,lst_kd = get_keypoints_and_desc(metadata,cfg['image_folder'])
             lst_best_match = get_best_matches(lst_desc,lst_kd)
             metadata = add_best_match_col(metadata,lst_best_match)
-            create_orb_acc_hist(metadata)
+            # create_orb_acc_hist(metadata)
+
     if 'data' in targets:
         lst_jsons = get_genre_jsons(genres,limit_per_genre)
         df_metadata = get_metadata(genres,lst_jsons)

@@ -31,7 +31,7 @@ from PIL import Image
 from matplotlib.offsetbox import OffsetImage
 from matplotlib.offsetbox import AnnotationBbox
 
-# retreive sample set and calls on all the other functions to 
+# retreive sample set and calls on all the other functions to
 # generate basic image stats and create graphs
 def sample_genres(list_of_genres, sample_size, df, folder):
     ''' list_of_genres: a list of the genres that we are working with
@@ -46,18 +46,18 @@ def sample_genres(list_of_genres, sample_size, df, folder):
     metadata = download_images(sampled_df, folder)
 
     #create graphs
-    saturation_histograms(metadata, 'graphs')
-    entropy_histograms(metadata, 'graphs')
-    brightness_histograms (metadata, 'graphs')
-    
+    saturation_histograms(metadata, 'output')
+    entropy_histograms(metadata, 'output')
+    brightness_histograms (metadata, 'output')
+
     # creates umap from basic image stats
-    embedding_df = create_umap (metadata, 'graphs')
+    embedding_df = create_umap (metadata, 'output')
 
     # creates thumbnails of the book covers
     thumbnail_list = create_img_thumbnails (metadata, folder, 'thumbnails')
     embedding_df['thumbnail_path'] = thumbnail_list
     embedding_df.columns = ['x', 'y', 'thumbnail_path']
-    
+
     #creates umap of thumbnails from basic image stats
     create_umap_thumbnail(embedding_df, 'UMAP of Book Cover Features')
 
@@ -104,7 +104,7 @@ def create_directory (folder):
 def download_images(meta_df, folder):
     ''' meta_df: adataframe of the sample set that includes cover_id
         folder: a string of the name of the folder where the images would
-                be saved at 
+                be saved at
                 '''
     create_directory(folder)
     pix = []
@@ -113,7 +113,7 @@ def download_images(meta_df, folder):
     saturation = []
     entropy = []
     count = 0
-    
+
     # goes through all of the cover id to download images
     for coverid in meta_df['cover_id']:
         if count == 90:
@@ -133,11 +133,11 @@ def download_images(meta_df, folder):
         saturation.append(mean_saturation(rendered_link))
 
         filename = "{}/{}.jpg".format(folder,coverid)
-        
+
         #download the book cover images
         urllib.request.urlretrieve(link, filename)
         entropy.append(get_entropy(filename))
-        
+
     #appends the lists of basic image stats to a dataframe
     meta_df['pixel_count'] = pix
     meta_df['mean_brightness'] = brightness
@@ -248,7 +248,7 @@ def create_umap_thumbnail(umap_df, graph_title):
         ax.add_artist(ab)
 
     plt.title(graph_title)
-    fig.savefig('graphs/{}.jpg'.format(graph_title), dpi = 100)
+    fig.savefig('output/{}.jpg'.format(graph_title), dpi = 100)
 
 def cnn_feature_vector(img):
     model = VGG16(weights='imagenet', include_top=False)
