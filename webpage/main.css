@@ -30,5 +30,10 @@ img.b1 {
 p{
     word-break: normal;
     white-space: normal;
-    font-size:1.25em;
+    font-size:1em;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    margin-right: 100px;
+    margin-left: 100px;
+
 }
