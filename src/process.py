@@ -9,11 +9,18 @@ import seaborn as sns
 from matplotlib import pyplot as plt
 # import pytesseract
 # from pytesseract import Output
-%matplotlib inline
 
 ### RGB HISTOGRAM ###
-
+'''
+We followed a great guide provided by Kartik Nooney on Towards Data Science. He provided great insight on how to get the RGB histograms and also how to best display the RGB histogram as
+a line chart. 
+You can find his guide here: https://towardsdatascience.com/judging-a-book-by-its-cover-1365d001ef50
+'''
 def get_rgb_hist(metadata,img_path):
+    """
+    Calculates the RGB Histogram for each image
+    Returns a list of rgb histograms
+    """
     lst_rgb_hist = []
     for cover_id in metadata['cover_id']:
         path = img_path+"/"+str(cover_id)+".jpg"
@@ -25,6 +32,10 @@ def get_rgb_hist(metadata,img_path):
     return lst_rgb_hist
 
 def get_hist_corr(lst_rgb_hist):
+    """
+    Calculates the correlation between each RGB histogram 
+    Returns a matrix of correlations
+    """
     lst_img_corr = []
     for i in range(len(lst_rgb_hist)):
         i_hist = lst_rgb_hist[i]
@@ -38,6 +49,10 @@ def get_hist_corr(lst_rgb_hist):
 
 
 def get_max_corr(lst_img_corr):
+    """
+    Finds the highest correlation for each book
+    Returns the index for each books most similar book
+    """
     lst_max_corr_idx = []
     for i in range(len(lst_img_corr)):
         lst_corr = lst_img_corr[i]
@@ -55,6 +70,9 @@ def get_max_corr(lst_img_corr):
     return lst_max_corr_idx
 
 def add_sim_book_col(metadata,lst_max_corr_idx):
+    '''
+    Adds the "Most Similar Book" column to the dataframe
+    '''
     lst_max_corr_cover_id = []
     for idx in lst_max_corr_idx:
         row = metadata.iloc[idx]
@@ -63,6 +81,9 @@ def add_sim_book_col(metadata,lst_max_corr_idx):
     return metadata
 
 def create_umap_rgb_hist(lst_rgb_hist,metadata):
+    '''
+    Calculates the UMAP clusterings for the RGB histograms and creates the RGB Histgoram UMAP chart without book cover thumnails
+    '''
     lst_rgb_hist_flat = []
     for hist in lst_rgb_hist:
         lst_rgb_hist_flat.append(hist.flatten())
@@ -72,10 +93,13 @@ def create_umap_rgb_hist(lst_rgb_hist,metadata):
     umap_df['label'] = metadata['genre']
     plt.figure(figsize=(15,16))
     rgb_hist_umap = sns.lmplot( x="x", y="y", data=umap_df, fit_reg=False, hue='label', legend=True)
-    rgb_hist_umap.savefig("rgb_hist_umap.png")
+    rgb_hist_umap.savefig("output/rgb_hist_umap.png")
     return umap_df
 
 def create_img_thumbnails(metadata,image_path,thumbnail_path):
+    '''
+    Creates thumbnails for all the book covers listed in the metadata dataframe
+    '''
     size = 24, 32
     lst_thumbnails = []
     lst_thumbnail_path = []
@@ -90,6 +114,9 @@ def create_img_thumbnails(metadata,image_path,thumbnail_path):
     return lst_thumbnails
 
 def create_umap_rgb_hist_with_tn(umap_df):
+    '''
+    Creates the RGB Histgoram UMAP chart with book cover thumnails
+    '''
     fig, ax = plt.subplots(figsize=(10, 10), dpi=100)
     ax.scatter(umap_df['x'].values, umap_df['y'].values) 
     coords = umap_df[['x','y','thumnail_path']].values
@@ -103,9 +130,16 @@ def create_umap_rgb_hist_with_tn(umap_df):
 
 
 ### ORB ###
-
+'''
+For ORB we followed OpenCV's documentation for ORB and also OpenCV's tutorial on image feature matching.
+The documentation can be found here: https://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_feature2d/py_orb/py_orb.html
+'''
 
 def get_keypoints_and_desc(metadata,image_path):
+    '''
+    Caluclated the ORB keypoints and descriptors for each book cover
+    Returns a list of descriptors and a list of keypoints
+    '''
     orb = cv2.ORB_create()
     lst_kd = []
     lst_desc = []
@@ -126,6 +160,11 @@ def get_keypoints_and_desc(metadata,image_path):
     return lst_desc,lst_kd
 
 def get_best_matches(lst_desc,lst_kd):
+    '''
+    Calculates the Norm Hamming Distance between each book book's descriptors. Finds each book's best match based off the lowest average distance 
+    between its descriptors.
+    Returns a list of each book's best match.
+    '''
     bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck = True)
     lst_best_match = []
     for i in range(len(lst_kd)):
@@ -154,6 +193,9 @@ def get_best_matches(lst_desc,lst_kd):
     return lst_best_match
 
 def add_best_match_col(metadata,lst_best_match):
+    '''
+    Creates a new column called "Best Match" to the metadata dataframe from the list of best matches.
+    '''
     lst_best_match_cover_id = []
     for idx in lst_best_match:
         if idx is None:
@@ -165,6 +207,9 @@ def add_best_match_col(metadata,lst_best_match):
     return metadata
 
 def create_orb_acc_hist(metadata):
+    '''
+    Creates the ORB accuracy histogram
+    '''
     correct = 0
     lst_correctly_matched = []
     for cover in metadata['cover_id'].tolist():
@@ -181,5 +226,5 @@ def create_orb_acc_hist(metadata):
             lst_correctly_matched.append(0)
     metadata['Correct_Match'] = pd.Series(lst_correctly_matched)
     metadata[metadata['Correct_Match']==0]['genre'].hist(figsize=(15,10))
-    ax.figure.savefig('orb_acc_hist.png')
+    ax.figure.savefig('output/orb_acc_hist.png')
 

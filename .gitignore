@@ -1,6 +1,7 @@
 # don't check-in data
-images
-
+image
+thumbnail
+webpage
 # don't check-in secrets
 
 
