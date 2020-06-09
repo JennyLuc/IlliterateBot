@@ -1,8 +1,8 @@
 
 {
-        "image_folder": "hellllooooooooooo",
+        "image_folder": "image_folder",
         "meta_folder": "metadata",
-        "tb_folder":"thumbnailzzzzz",
+        "tb_folder":"thumbnails_folder",
         "sample_size":10,
         "limit_per_genre":500,
         "genres":["Science","Romance","Crime","Horror","Fantasy"]
