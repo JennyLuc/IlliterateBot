@@ -19,7 +19,7 @@ def main(targets):
     genres = cfg['genres']
     if 'test' in targets:
             books_5_genres = pd.read_csv('notebooks/2500_books_5_genres.csv')
-            metadata = sample_genres(genres,cfg['sample_size'],books_5_genres,cfg['image_folder'],cfg['meta_folder'])
+            metadata = sample_genres(cfg['genres'],cfg['sample_size'],books_5_genres,cfg['image_folder'])
             return
     if 'data' in targets:
         lst_jsons = get_genre_jsons(genres,limit_per_genre)
