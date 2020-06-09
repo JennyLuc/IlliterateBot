@@ -2,6 +2,7 @@
 
 ## Limitations of Code 
 
+### CNN Feature Vectors
 Parts of the code that we have used we are unable to include into our pipeline. 
 This includes creating the VGG16 CNN feature vectors, when transforming our book cover images
 to feature vectors. When running our code that transforms our book cover images to feature vectors on our code, 
