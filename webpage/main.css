@@ -17,6 +17,7 @@ h1, h2{
 .column {
     flex: 50%;
     padding: 10px;
+
 }
 
 img.b1 {
@@ -37,7 +38,6 @@ p{
     white-space: normal;
     font-size:1.2em;
     margin-top: 50px;
-    margin-bottom: 100px;
     margin-right: 100px;
     margin-left: 100px;
 
