@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import seaborn as sns
 from matplotlib import pyplot as plt
+from etl import *
 # import pytesseract
 # from pytesseract import Output
 
