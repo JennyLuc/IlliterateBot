@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import seaborn as sns
 from matplotlib import pyplot as plt
-from etl import *
 # import pytesseract
 # from pytesseract import Output
 
@@ -135,7 +134,7 @@ def create_example_rgb_hist():
     Creates the example RGB histogram
     Follows the Kartik Nooney tutorial example
     '''
-    image_path = "image/8441376.jpg"
+    image_path = "test/50996.jpg"
     img = cv2.imread(image_path)
     color = ('r','g','b')
     plt.figure(figsize=(20,15))
